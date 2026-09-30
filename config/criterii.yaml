@@ -1,0 +1,186 @@
+# criterii.yaml — EXEMPLU
+#
+# Criterii FICTIVE, ca proiectul sa ruleze din prima. Inlocuieste-le cu ale tale.
+# (Example criteria. The keys are the ones the code reads; the values are made up.)
+#
+# Regula: nimic din ce e aici nu se hardcodeaza in cod. Codul citeste acest fisier.
+# Daca iti pui aici pragurile tale reale de salariu, nu mai publica fisierul.
+
+meta:
+  versiune: 1.0
+
+
+# =============================================================
+# 0. EVALUARE - ce intra in scoring
+# =============================================================
+
+evaluare:
+  varsta_maxima_zile: 30
+  nota: "Anunturile mai vechi nu se evalueaza - sunt ocupate sau expirate.
+         Datele raman in baza, doar nu intra in scoring."
+
+
+# =============================================================
+# 1. CONSTRANGERI DURE
+# Evaluate DETERMINIST, in cod. Fara model.
+# Orice oportunitate care incalca una din astea = respinsa.
+# =============================================================
+
+constrangeri_dure:
+
+  locatie:
+    baza: "Cluj-Napoca"
+    mutare_alt_oras: false
+    onsite_max_zile_saptamana: 2        # peste prag nu se respinge, se pune la coada briefingului
+    remote_acceptat: true
+    remote_locatie_firma_irelevanta: true
+    # Codul verifica tara LOCULUI DE MUNCA, din datele structurate ale paginii.
+    # Alta tara decat cele din `permis` = respins. Fara pagina, tara e necunoscuta.
+    tara_firma:
+      permis: ["RO"]
+      exclus: ["extern"]
+
+  limbi:
+    # Limbile pe care le vorbesti. ORICE ALTA limba ceruta de anunt = respins.
+    vorbite: ["romana", "engleza"]
+    nota: "cere doar limbile din lista; orice alta limba ceruta = respins"
+
+    # `vorbite` e pentru om; listele de mai jos sunt pentru cod. Codul ia limbile a
+    # caror cheie NU e in `vorbite` si pune fiecare scriere in fiecare tipar.
+    # Se cauta ca CUVINTE INTREGI si fara diacritice.
+    scrieri:
+      romana:      ["romana", "romanian"]
+      engleza:     ["engleza", "english"]
+      germana:     ["germana", "german", "deutsch"]
+      franceza:    ["franceza", "french", "francais"]
+      italiana:    ["italiana", "italian", "italiano"]
+      spaniola:    ["spaniola", "spanish", "espanol"]
+      portugheza:  ["portugheza", "portuguese", "portugues"]
+      olandeza:    ["olandeza", "dutch", "nederlands", "flamanda", "flemish"]
+      ceha:        ["ceha", "czech"]
+      slovaca:     ["slovaca", "slovak"]
+      poloneza:    ["poloneza", "polish"]
+      maghiara:    ["maghiara", "ungara", "hungarian", "magyar"]
+      bulgara:     ["bulgara", "bulgarian"]
+      sarba:       ["sarba", "serbian"]
+      croata:      ["croata", "croatian"]
+      slovena:     ["slovena", "slovenian"]
+      greaca:      ["greaca", "greek"]
+      turca:       ["turca", "turkish"]
+      rusa:        ["rusa", "russian"]
+      ucraineana:  ["ucraineana", "ukrainian"]
+      suedeza:     ["suedeza", "swedish"]
+      norvegiana:  ["norvegiana", "norwegian"]
+      daneza:      ["daneza", "danish"]
+      finlandeza:  ["finlandeza", "finnish"]
+      ebraica:     ["ebraica", "hebrew"]
+      araba:       ["araba", "arabic"]
+      chineza:     ["chineza", "chinese", "mandarin"]
+      japoneza:    ["japoneza", "japanese"]
+      coreeana:    ["coreeana", "korean"]
+
+    # Felul în care platformele scriu că limba e cerută. {limba} se înlocuiește cu
+    # fiecare scriere de mai sus. Ies și combinații fără sens ("with germana") - nu
+    # deranjează, nu se potrivesc niciodată cu nimic.
+    tipare:
+      - "with {limba}"
+      - "{limba} speaker"
+      - "{limba} speaking"
+      - "{limba} language"
+      - "cu {limba}"
+      - "limba {limba}"
+      - "vorbitor {limba}"
+      - "vorbitor de {limba}"
+      - "cunostinte de {limba}"
+
+    # Cereri de limbi care nu numesc nicio limbă anume. "Multilingual HRBP" cere prin
+    # definiție mai mult decât română și engleză, altfel n-ar scrie-o în titlu.
+    tipare_directe:
+      - "multilingual"
+      - "multilingv"
+      - "bilingual"
+      - "bilingv"
+      - "trilingual"
+      - "poliglot"
+
+  rol_structura:
+    exclus:
+      - "ture / program in schimburi"
+
+    # Sirurile cautate efectiv in text, ca CUVINTE INTREGI ("ture" nu prinde "structure").
+    cuvinte_excluse:
+      - "ture"
+      - "schimburi"
+      - "tura de noapte"
+      - "shift work"
+      - "night shift"
+      - "rotating shifts"
+
+  venit_net_lunar_ron:
+    prag_respingere: 5000               # sub prag = respins automat
+    prag_trecere: 6000                  # intre cele doua praguri: trece, dar la coada briefingului
+    nota_stres: "Banii nu compenseaza un rol gresit: un rol plictisitor ajunge la coada
+                 briefingului la orice salariu."
+
+
+# =============================================================
+# 2. TINTA - ce se cauta. Textele de aici intra in promptul modelului.
+# =============================================================
+
+tinta:
+
+  continut:
+    descriere: "Analiza de date si automatizare de procese intr-o firma cu operatiuni complexe."
+    traiectorie:
+      A_acum: "Analist de date cu componenta de automatizare."
+      B_apoi: "Automatizare de procese in general."
+      nota: "B e o consecinta a lui A."
+
+  exclus:
+    - rol: "programator / inginer software pur"
+      motiv: "Nu e directia cautata."
+    - rol: "introducere de date"
+      motiv: "Repetitiv, automatizabil."
+
+  # Treptele de relevanta pe care se pronunta modelul la evaluarea calitativa.
+  trepte:
+
+    ideal:
+      descriere: "Analiza de date si automatizare aplicate pe procesele firmei."
+      exemple:
+        - "Business Analyst / Process Automation"
+        - "Data Analyst cu componenta de construit"
+        - "rol nou, care se defineste, intr-o firma cu procese complexe"
+
+    bun_in_domeniu:
+      descriere: "Rol senior de analiza, fara componenta explicita de automatizare."
+      exemple:
+        - "Senior Data Analyst"
+        - "Reporting Specialist"
+        - "BI Analyst"
+      nota: "Roluri de analiza in firme mari. Merita vazute, nu ascunse."
+
+    exclus:
+      descriere: "Executie repetitiva: rolul face lucrul, nu il schimba."
+      exemple:
+        - "data entry"
+        - "operator introducere date"
+
+
+# =============================================================
+# 3. CONDITII CALITATIVE
+# Evaluate de model, DOAR pe ce a trecut de constrangerile dure.
+# =============================================================
+
+conditii_calitative:
+
+  semnale_pozitive:
+    - "construieste ceva, nu opereaza ceva"
+    - "automatizare, validare, control, verificare"
+    - "rolul e nou / se defineste"
+    - "se invata ceva"
+
+  semnale_negative:
+    - "'cautam entuziasti de AI' fara nimic concret in spate"
+    - "rol de executie deghizat in rol de inovatie"
+    - "volum mare, termene dure, zero autonomie"

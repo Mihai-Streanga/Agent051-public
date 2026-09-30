@@ -1,0 +1,32 @@
+# VERSIUNI FIXATE, dinadins. Fara ele, o reinstalare aduce ce e mai nou in ziua
+# aia - iar la mutarea din 29 septembrie 2026 asta ar fi adus tacut mcp 2.x si
+# anthropic 1.x, doua versiuni majore care cer modificari de cod. Trecerea la ele
+# s-a facut apoi cu intentie, in aceeasi zi (ceda868, testele rulate) - de aceea
+# sunt cele fixate mai jos. O actualizare se face cu intentie: se schimba numarul aici, se ruleaza testele, se comite.
+# Se fixeaza doar ce cerem noi; dependintele lor le alege pip, in limitele puse
+# de pachetele de mai jos.
+
+python-dotenv==1.2.3
+pyyaml==6.0.3
+
+# Cererile HTTP catre paginile publice de anunt (eJobs, BestJobs). O atinge UN
+# SINGUR fisier: ingest/pagini.py. Restul lantului - extragerea descrierii din
+# HTML - e cod pur, in core/descriere.py, si merge fara ea.
+# Verificarea robots.txt NU are nevoie de biblioteca: e urllib.robotparser, din
+# Python. Alegerea lui `requests` peste urllib: gestioneaza singur redirectarile,
+# codificarea si antetele, adica exact partile in care urllib greseste tacut.
+requests==2.34.2
+
+# SDK-ul oficial MCP (Model Context Protocol). Il foloseste doar
+# adapters/mcp_server.py, ca sa expuna uneltele catre JA.S.Mine.
+# Aduce cu el si uvicorn + starlette (serverul HTTP) si pydantic (validarea
+# parametrilor) - nu le cerem separat, vin ca dependinte ale lui.
+mcp==2.2.0
+
+# SDK-ul oficial Anthropic. Il atinge UN SINGUR fisier din tot proiectul:
+# adapters/model.py, care e implementarea reala a lui cheama_model. Restul
+# lantului de normalizare/evaluare primeste modelul ca functie injectata si nu
+# stie ca exista biblioteca asta - de aia importul lui e amanat, inauntrul
+# functiei, nu in capul modulului: fara el, uneltele deterministe (ingestie,
+# extragere, filtrare) si toate testele merg fara ca anthropic sa fie instalat.
+anthropic==1.9.0

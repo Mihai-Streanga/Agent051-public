@@ -1,0 +1,29 @@
+# cost.yaml
+#
+# Pretul modelului si bugetul lunar. Din ele, raportul de consum trece din "tokeni" in bani.
+#
+# DE CE in USD: Anthropic factureaza in dolari, iar preturile publicate sunt in dolari.
+# Cursul EUR/USD nu intra nicaieri - se schimba zilnic, iar un buget convertit azi ar
+# spune altceva maine. Bugetul se scrie direct in dolari.
+#
+# DE CE numele modelului sta aici: pretul e al UNUI model. Daca in .env
+# (MODEL_NORMALIZARE) ajunge alt model, preturile de aici nu mai sunt ale lui, iar
+# raportul spune "pret necunoscut" in loc sa inmulteasca cu cifre gresite.
+#
+# Fisierul NU e sensibil si intra in Git ca atare.
+
+# Acelasi nume ca MODEL_NORMALIZARE din .env.
+model: claude-sonnet-5
+
+# Dolari pe un milion de tokeni. Pretul publicat al lui Claude Sonnet 5, citit pe
+# platform.claude.com/docs/en/about-claude/pricing la 29 septembrie 2026: 2 $ / 10 $.
+# Pagina spune ca pretul introductiv a ramas cel standard (cresterea la 3 $ / 15 $ din
+# 1 septembrie 2026 nu mai are loc). Se verifica acolo cand se schimba modelul.
+pret_intrare_usd_pe_milion: 2.0
+pret_iesire_usd_pe_milion: 10.0
+
+# Bugetul pe luna calendaristica. Se schimba cifra de aici, nimic altceva.
+#
+# ATENTIE: raportul vede doar ce a cheltuit Agent 051. Daca aceeasi cheie API e folosita
+# si de alte programe, consumul lor nu apare aici.
+buget_lunar_usd: 5.0

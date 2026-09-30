@@ -1,0 +1,55 @@
+# surse.yaml
+#
+# Configurarea TEHNICA a citirii paginilor publice de anunt.
+#
+# DE CE fisier separat de criterii.yaml: acolo stau pragurile salariale si pozitia de
+# negociere a autorului - date sensibile. Aici stau politeturi de retea: cat astepti
+# intre doua cereri, cat astepti dupa un raspuns. N-au nimic in comun, se schimba din
+# motive diferite, si nu vrem sa deschidem fisierul cu praguri ca sa reglam un timeout.
+#
+# Fisierul asta NU e sensibil si intra in Git ca atare.
+
+pagini:
+
+  # Cat asteapta agentul intre doua cereri catre acelasi site, in secunde.
+  #
+  # DE CE exista, si de ce nu se coboara sub 1: paginile astea sunt publice si gratuite,
+  # dar serverul din spate e al altcuiva. O rulare de 30 de pagini fara pauza arata, din
+  # partea cealalta, exact ca un atac. Cu 2 secunde, 30 de pagini inseamna un minut -
+  # nu deranjeaza pe nimeni si nu ne face sa fim blocati.
+  pauza_secunde: 2
+
+  # Cat asteptam un raspuns inainte sa renuntam, in secunde. O pagina de anunt e HTML
+  # simplu; daca nu vine in 20 de secunde, ceva e in neregula si e mai bine sa se vada
+  # ca esec decat sa atarne rularea.
+  timeout_secunde: 20
+
+  # Cum ne prezentam. ONEST, identificabil, cu adresa de contact: daca rularile astea
+  # deranjeaza pe cineva, vrem sa aiba pe cine sa contacteze - nu sa ne caute.
+  #
+  # NU imitam un browser. Un User-Agent copiat din Chrome ar trece mai usor de filtre,
+  # dar ar fi o minciuna spusa unui server care ne da continut gratis, si ar face
+  # imposibil pentru administratorul lui sa deosebeasca un agent personal de un scraper
+  # comercial. Daca o sursa ne blocheaza vazand cine suntem, raspunsul corect e sa ne
+  # oprim, nu sa ne deghizam.
+  user_agent: "Agent051/0.1 (agent personal de cautare joburi; contact: your_email@example.com)"
+
+  # Sursele de la care se citesc pagini de anunt.
+  #
+  # LinkedIn lipseste DINADINS: blocheaza agresiv cererile automate (403 / captcha /
+  # redirect la login) chiar si pe pagini publice. A insista ar insemna deghizare - vezi
+  # nota de la user_agent. Anunturile LinkedIn raman cu titlu + firma, atat.
+  surse_permise:
+    - ejobs
+    - bestjobs
+
+# Firmele care repun pe LinkedIn joburile altora, sub numele lor. Un anunt pus de ele cu
+# acelasi titlu ca al unei firme e marcat in briefing "posibil repostat" - vezi
+# _strange_repostarile din core/briefing.py.
+#
+# DE CE o lista, si nu orice titlu identic la doua firme: titlurile generice ("Human
+# Resources Specialist") apar la multe firme si sunt joburi diferite; pe date reale, la
+# 30 septembrie 2026, eticheta ajunsese la liste de sase firme.
+# Se compara cu litere mici. Lista goala = nicio eticheta "posibil repostat".
+agregatori:
+  - Undelucram.ro
