@@ -52,8 +52,8 @@ You need Python 3.14, a Gmail account with IMAP enabled and an
 Windows:
 
 ```bat
-git clone https://github.com/<your-user>/Agent051.git
-cd Agent051
+git clone https://github.com/Mihai-Streanga/Agent051-public.git
+cd Agent051-public
 python -m venv .venv
 .venv\Scripts\python.exe -m pip install -r requirements.txt
 copy .env.example .env
@@ -62,8 +62,8 @@ copy .env.example .env
 macOS / Linux:
 
 ```bash
-git clone https://github.com/<your-user>/Agent051.git
-cd Agent051
+git clone https://github.com/Mihai-Streanga/Agent051-public.git
+cd Agent051-public
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 cp .env.example .env
