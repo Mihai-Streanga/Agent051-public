@@ -6,6 +6,21 @@ opening. Job alerts arrive daily as dozens of listings per email, most of them o
 repeated; the agent sorts through all of them with the same rules every time and ends with a
 short briefing of what is new and relevant.
 
+## What makes it reliable
+
+- **The model judges; code decides.** Hard constraints (salary, location, languages, excluded
+  words) are deterministic rules, and the briefing is computed from stored results. The model
+  only extracts facts and rates the listings that passed, each with a written reason.
+- **Three verdicts, not two.** A listing passes, is rejected with the rule it broke, or is
+  *uncertain* when data is missing. Uncertain is never treated as rejected, so nothing is lost
+  silently.
+- **Spending is controlled.** Every step that calls the model or the network shows a dry run
+  first and caps its work with `--limita`. Cost is computed against a monthly budget, and a
+  missing or mismatched price gives "unknown", never a guessed figure.
+- **451 tests**, runnable without an API key or network, on fixtures cut from real job pages.
+- **Safe to run as a service.** The MCP server refuses to start without a token, and every
+  request must carry it.
+
 ## Screenshots
 
 The briefing and the hard filter, on fictional example data (see [Example output](#example-output)):
@@ -223,6 +238,14 @@ shortcut to it in the Startup folder to start it at login.
 - The MCP server speaks plain HTTP; the token protects against other devices on the local
   network, not against traffic sniffing. Do not expose the port to the internet.
 - Tested on Windows with Python 3.14.
+
+## How it was built
+
+Agent 051 was built with Claude Code, by a domain expert working as architect and judge of every
+result, and it was the first project brought onto the
+[Streanga Method](https://github.com/Mihai-Streanga/streanga-method-for-claude). On the method,
+the cost of starting a working session fell by about two thirds, and its test suite grew from
+399 to 514 tests in the private repository, 451 of which are published here.
 
 ## License
 
