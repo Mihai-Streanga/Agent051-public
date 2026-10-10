@@ -35,8 +35,8 @@ The briefing and the hard filter, on fictional example data (see [Example output
 2. **Extract** – each email is split into listings, with one parser per job board.
 3. **Describe** – when an email only has the title, the description is read from the public
    job page (eJobs and BestJobs only; `robots.txt` is respected, with a pause between requests).
-4. **Normalize** – a language model extracts a few facts from each listing (salary, work mode,
-   location, languages).
+4. **Normalize** – a language model standardizes four facts written in each listing (role,
+   seniority, work mode, domain); it gives no verdict on relevance.
 5. **Filter** – hard constraints (salary, location, languages, excluded keywords) are
    deterministic rules in code, never model judgement.
 6. **Evaluate** – the model rates only the listings that passed the filter, with a written reason.
@@ -245,7 +245,8 @@ Agent 051 was built with Claude Code, by a domain expert working as architect an
 result, and it was the first project brought onto the
 [Streanga Method](https://github.com/Mihai-Streanga/streanga-method-for-claude). On the method,
 the cost of starting a working session fell by about two thirds, and its test suite grew from
-399 to 514 tests in the private repository, 451 of which are published here.
+399 to 514 tests in the private repository, 451 of which are published here. The design
+decisions, each with its reason, are in [docs/DESIGN.md](docs/DESIGN.md).
 
 ## License
 
