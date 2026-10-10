@@ -1,5 +1,7 @@
 # Agent 051
 
+[![tests](https://github.com/Mihai-Streanga/Agent051-public/actions/workflows/tests.yml/badge.svg)](https://github.com/Mihai-Streanga/Agent051-public/actions/workflows/tests.yml)
+
 Agent 051 reads job alert emails from Gmail (eJobs, BestJobs and LinkedIn, the main Romanian job
 boards), checks every listing against your own criteria and tells you which ones are worth
 opening. Job alerts arrive daily as dozens of listings per email, most of them off-target or
@@ -247,6 +249,10 @@ result, and it was the first project brought onto the
 the cost of starting a working session fell by about two thirds, and its test suite grew from
 399 to 514 tests in the private repository, 451 of which are published here. The design
 decisions, each with its reason, are in [docs/DESIGN.md](docs/DESIGN.md).
+
+The history here is short because this repository is a copy derived from the private working
+repository, which keeps the full history and the personal data left out of the copy: 158 commits,
+from July to October 2026 (read on 10 October 2026).
 
 ## License
 
